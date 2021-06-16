@@ -1,4 +1,6 @@
 import turtle
+import string
+import random
 
 apple_image = 'apple.gif'
 background_image = 'background.gif'
@@ -11,9 +13,8 @@ wn.bgpic("background.gif")
 wn.addshape(apple_image)
 wn.tracer(False)
 
-current_letter = 'A'
 class Apple:
-    def __init__(self, position, letter):
+    def init(self, position, letter):
         apple = turtle.Turtle()
 
         self.pos = position
@@ -23,6 +24,8 @@ class Apple:
         apple.shape(apple_image)
         apple.penup()
         apple.pencolor('white')
+
+        wn.onkeypress(lambda: self.fall(), letter.lower())
 
         x, y = position
         apple.goto(((x-14), (y-37)))
@@ -38,9 +41,14 @@ class Apple:
         self.apple.hideturtle()
         wn.tracer(False)
 
-current_letter = Apple((0,100), 'A')
-wn.onkeypress(lambda: current_letter.fall(), 'a')
+alphabet_string = list(string.ascii_lowercase)
+
+for x in range(8):
+    letter = random.choice(alphabet_string)
+    alphabet_string.pop(alphabet_string.index(letter))
+    x = random.randint(-100, 100)
+    y = random.randint(0, 100)
+    Apple((x,y), letter)
 
 wn.listen()
-
 wn.mainloop()
